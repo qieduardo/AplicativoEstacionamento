@@ -38,11 +38,10 @@ public class VeiculoController {
     }
     @GetMapping("saida/{id}")
     public String getVeiculo(Model model, @PathVariable Long id){
+        service.registrarSaida(id);
         List<VeiculoEntity> veiculos = service.listarVeiculo();
         model.addAttribute("veiculos", veiculos);
-        VeiculoEntity veiculo = service.buscaVeiculoPorId(id);
-        model.addAttribute("veiculo", veiculo);
-        return "registrar-saida";
+        return "redirect:/veiculo/registrar-saida";
     }
 }
 
