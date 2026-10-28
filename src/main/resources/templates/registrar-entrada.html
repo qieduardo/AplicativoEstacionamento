@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Veículo | Controle de Veículos</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            color: #fff;
+            background:
+                radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.20), transparent 30%),
+                radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.20), transparent 30%),
+                linear-gradient(135deg, #080b14, #111827 50%, #0f172a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Elementos decorativos de fundo */
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            width: 320px;
+            height: 320px;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.35;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        body::before {
+            background: #2563eb;
+            top: -100px;
+            left: -100px;
+        }
+
+        body::after {
+            background: #7c3aed;
+            bottom: -120px;
+            right: -100px;
+        }
+
+        /* Card principal do formulário */
+        .cadastro {
+            position: relative;
+            z-index: 1;
+            width: min(430px, calc(100% - 40px));
+            padding: 42px 36px;
+            background: rgba(15, 23, 42, 0.68);
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 28px;
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            animation: aparecer 0.7s ease-out;
+        }
+
+        /* Título */
+        h2 {
+            font-size: clamp(24px, 5vw, 32px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            text-align: center;
+            margin-bottom: 24px;
+            background: linear-gradient(90deg, #ffffff, #bfdbfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Grupos de formulário */
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        /* Campos de input */
+        input {
+            width: 100%;
+            height: 52px;
+            padding: 0 16px;
+            background: rgba(255, 255, 255, 0.055);
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            font-size: 15px;
+            outline: none;
+            transition: all 0.25s ease;
+        }
+
+        input::placeholder {
+            color: #64748b;
+        }
+
+        input:focus {
+            background: rgba(255, 255, 255, 0.09);
+            border-color: rgba(96, 165, 250, 0.35);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Botão de envio */
+        button {
+            width: 100%;
+            height: 54px;
+            margin-top: 6px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.3);
+            transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.4);
+            opacity: 0.95;
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* Animação de entrada */
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.97);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Responsividade */
+        @media (max-width: 480px) {
+            .cadastro {
+                padding: 34px 22px;
+                border-radius: 23px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="cadastro">
+    <h2>Cadastrar Veículo</h2>
+
+    <form method="post" action="/veiculo/cadastrar" class="form-group">
+        <input type="text" id="placa" name="placa" placeholder="Digite a placa" required>
+        <input type="text" id="modelo" name="modelo" placeholder="Digite o modelo" required>
+        <input type="text" id="cor" name="cor" placeholder="Digite a cor" required>
+        <input type="text" id="observacoes" name="observacoes" placeholder="Observações">
+
+        <button type="submit">Salvar Entrada</button>
+    </form>
+</div>
+
+</body>
+</html>

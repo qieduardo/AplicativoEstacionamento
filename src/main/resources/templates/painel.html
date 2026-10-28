@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bem-vindo | Controle de Veículos</title>
+
+    <style>
+        /* ==============================
+           RESET
+        ============================== */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        /* ==============================
+           BODY
+        ============================== */
+
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+
+            color: #fff;
+
+            background:
+                radial-gradient(
+                    circle at 15% 20%,
+                    rgba(59, 130, 246, 0.20),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 85% 80%,
+                    rgba(139, 92, 246, 0.20),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #080b14,
+                    #111827 50%,
+                    #0f172a
+                );
+
+            display: block;
+
+            padding: 30px 20px;
+
+            overflow-x: hidden;
+            overflow-y: auto;
+
+            position: relative;
+        }
+
+
+        /* ==============================
+           EFEITOS DE FUNDO
+        ============================== */
+
+        body::before,
+        body::after {
+            content: "";
+
+            position: absolute;
+
+            width: 320px;
+            height: 320px;
+
+            border-radius: 50%;
+
+            filter: blur(100px);
+
+            opacity: 0.35;
+
+            z-index: 0;
+
+            pointer-events: none;
+        }
+
+        body::before {
+            background: #2563eb;
+
+            top: -100px;
+            left: -100px;
+        }
+
+        body::after {
+            background: #7c3aed;
+
+            bottom: -120px;
+            right: -100px;
+        }
+
+
+        /* ==============================
+           CARD PRINCIPAL
+        ============================== */
+
+        .welcome {
+            position: relative;
+
+            z-index: 2;
+
+            width: min(1100px, 100%);
+
+            padding: 28px;
+
+            margin: 0 auto;
+
+            text-align: center;
+
+            background: rgba(15, 23, 42, 0.72);
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+
+            border-radius: 28px;
+
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.45),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+
+            animation: aparecer 0.7s ease-out;
+        }
+
+
+        /* ==============================
+           NAVBAR
+        ============================== */
+
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 12px 14px;
+            margin-bottom: 34px;
+
+            background: rgba(15, 23, 42, 0.58);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 12px 30px rgba(0, 0, 0, 0.20),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #f8fafc;
+            font-size: 15px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .nav-brand-icon {
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.25);
+            font-size: 18px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 13px;
+            color: #94a3b8;
+            text-decoration: none;
+            border: 1px solid transparent;
+            border-radius: 12px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: color .25s ease, background .25s ease, border-color .25s ease, transform .25s ease;
+        }
+
+        .nav-link:hover {
+            color: #f8fafc;
+            background: rgba(59, 130, 246, 0.10);
+            border-color: rgba(96, 165, 250, 0.16);
+            transform: translateY(-1px);
+        }
+
+        .nav-link.active {
+            color: #fff;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.20), rgba(139, 92, 246, 0.16));
+            border-color: rgba(96, 165, 250, 0.25);
+            box-shadow: 0 6px 18px rgba(59, 130, 246, 0.10), inset 0 1px 0 rgba(255,255,255,.06);
+        }
+
+        .nav-icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        .nav-link:focus-visible {
+            outline: 2px solid #60a5fa;
+            outline-offset: 3px;
+        }
+
+
+        /* ==============================
+           ÍCONE PRINCIPAL
+        ============================== */
+
+        .icon {
+            width: 76px;
+            height: 76px;
+
+            margin: 0 auto 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 34px;
+
+            border-radius: 22px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 12px 30px rgba(37, 99, 235, 0.35);
+
+            animation: flutuar 3s ease-in-out infinite;
+        }
+
+
+        /* ==============================
+           TÍTULO
+        ============================== */
+
+        .welcome h1 {
+            font-size: clamp(28px, 6vw, 38px);
+
+            font-weight: 800;
+
+            letter-spacing: -1.5px;
+
+            margin-bottom: 10px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #bfdbfe
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            -webkit-text-fill-color: transparent;
+        }
+
+
+        /* ==============================
+           SUBTÍTULO
+        ============================== */
+
+        .subtitle {
+            color: #94a3b8;
+
+            font-size: 15px;
+
+            line-height: 1.6;
+
+            max-width: 320px;
+
+            margin: 0 auto 32px;
+        }
+
+
+        /* ==============================
+           ÁREA DOS BOTÕES
+        ============================== */
+
+        .actions {
+            display: flex;
+
+            flex-direction: column;
+
+            gap: 13px;
+
+            width: 100%;
+
+            /* Espaço entre os botões e o painel de veículos */
+            margin-bottom: 28px;
+        }
+
+
+        /* ==============================
+           BOTÕES
+        ============================== */
+
+        .action {
+            position: relative;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            width: 100%;
+
+            min-height: 64px;
+
+            padding: 10px 16px;
+
+            text-decoration: none;
+
+            color: #fff;
+
+            border-radius: 16px;
+
+            background: rgba(255, 255, 255, 0.055);
+
+            border: 1px solid rgba(255, 255, 255, 0.08);
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                border-color 0.25s ease,
+                box-shadow 0.25s ease;
+
+            overflow: hidden;
+
+            z-index: 3;
+        }
+
+
+        /* Efeito de brilho */
+
+        .action::before {
+            content: "";
+
+            position: absolute;
+
+            inset: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.07),
+                    transparent
+                );
+
+            transform: translateX(-100%);
+
+            transition: transform 0.5s ease;
+
+            pointer-events: none;
+        }
+
+        .action:hover::before {
+            transform: translateX(100%);
+        }
+
+
+        /* Hover */
+
+        .action:hover {
+            transform: translateY(-3px);
+
+            background: rgba(255, 255, 255, 0.09);
+
+            border-color: rgba(96, 165, 250, 0.35);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.25);
+        }
+
+
+        /* Clique */
+
+        .action:active {
+            transform: translateY(-1px);
+        }
+
+
+        /* ==============================
+           BOTÃO DE SAÍDA
+        ============================== */
+
+        .action-exit:hover {
+            border-color: rgba(248, 113, 113, 0.35);
+        }
+
+        .action-exit:hover .arrow {
+            color: #fca5a5;
+        }
+
+
+        /* ==============================
+           ÍCONE DOS BOTÕES
+        ============================== */
+
+        .action-icon {
+            width: 44px;
+            height: 44px;
+
+            flex-shrink: 0;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            font-size: 21px;
+
+            background: rgba(59, 130, 246, 0.15);
+
+            color: #60a5fa;
+        }
+
+
+        /* Ícone do botão de saída */
+
+        .action-exit .action-icon {
+            background: rgba(239, 68, 68, 0.12);
+
+            color: #f87171;
+        }
+
+
+        /* ==============================
+           TEXTO DOS BOTÕES
+        ============================== */
+
+        .action-content {
+            text-align: left;
+
+            flex: 1;
+
+            min-width: 0;
+        }
+
+        .action-title {
+            display: block;
+
+            font-size: 15px;
+
+            font-weight: 700;
+
+            margin-bottom: 3px;
+        }
+
+        .action-description {
+            display: block;
+
+            font-size: 12px;
+
+            color: #64748b;
+
+            line-height: 1.4;
+        }
+
+
+        /* ==============================
+           SETA
+        ============================== */
+
+        .arrow {
+            flex-shrink: 0;
+
+            color: #64748b;
+
+            font-size: 20px;
+
+            transition:
+                transform 0.25s ease,
+                color 0.25s ease;
+        }
+
+        .action:hover .arrow {
+            transform: translateX(4px);
+
+            color: #93c5fd;
+        }
+
+
+        /* ==============================
+           TABELA DE VEÍCULOS
+        ============================== */
+
+        .vehicles-panel {
+            width: 100%;
+            padding: 22px;
+            text-align: left;
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+        }
+
+        .table-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .table-header-icon {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(59, 130, 246, 0.13);
+            font-size: 19px;
+        }
+
+        .table-title {
+            color: #f8fafc;
+            font-size: 16px;
+            font-weight: 750;
+        }
+
+        .table-subtitle {
+            margin-top: 3px;
+            color: #64748b;
+            font-size: 12px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 14px;
+            border: 1px solid rgba(255,255,255,.06);
+        }
+
+        .vehicles-table {
+            width: 100%;
+            min-width: 650px;
+            border-collapse: collapse;
+            background: rgba(2, 6, 23, 0.18);
+        }
+
+        .vehicles-table th {
+            padding: 13px 15px;
+            text-align: left;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            background: rgba(255,255,255,.025);
+            border-bottom: 1px solid rgba(255,255,255,.07);
+        }
+
+        .vehicles-table td {
+            padding: 15px;
+            color: #cbd5e1;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(255,255,255,.05);
+        }
+
+        .vehicles-table tbody tr:last-child td {
+            border-bottom: 0;
+        }
+
+        .vehicles-table tbody tr {
+            transition: background .2s ease;
+        }
+
+        .vehicles-table tbody tr:hover {
+            background: rgba(59,130,246,.06);
+        }
+
+        .plate {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 7px;
+            color: #e2e8f0;
+            background: rgba(255,255,255,.07);
+            border: 1px solid rgba(255,255,255,.08);
+            font-weight: 700;
+            letter-spacing: .5px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 9px;
+            border-radius: 999px;
+            color: #86efac;
+            background: rgba(34,197,94,.10);
+            border: 1px solid rgba(34,197,94,.16);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .status-badge::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px rgba(34,197,94,.7);
+        }
+
+
+        /* ==============================
+           RODAPÉ
+        ============================== */
+
+        .footer {
+            margin-top: 28px;
+
+            font-size: 11px;
+
+            color: #475569;
+        }
+
+        .status {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #22c55e;
+
+            box-shadow:
+                0 0 10px rgba(34, 197, 94, 0.8);
+
+            animation: pulsar 2s ease-in-out infinite;
+        }
+
+
+        /* ==============================
+           ANIMAÇÕES
+        ============================== */
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(20px)
+                    scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+
+        @keyframes flutuar {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+
+        @keyframes pulsar {
+            0%,
+            100% {
+                opacity: 1;
+
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.6;
+
+                transform: scale(0.85);
+            }
+        }
+
+
+        /* ==============================
+           ACESSIBILIDADE
+        ============================== */
+
+        .action:focus-visible {
+            outline: 2px solid #60a5fa;
+
+            outline-offset: 3px;
+        }
+
+
+        /* ==============================
+           RESPONSIVIDADE
+        ============================== */
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 16px;
+            }
+
+            .welcome {
+                width: 100%;
+
+                padding: 34px 22px;
+
+                border-radius: 23px;
+            }
+
+            .icon {
+                width: 68px;
+                height: 68px;
+
+                font-size: 30px;
+
+                border-radius: 19px;
+
+                margin-bottom: 20px;
+            }
+
+            .welcome h1 {
+                font-size: 30px;
+            }
+
+            .subtitle {
+                font-size: 14px;
+
+                margin-bottom: 26px;
+            }
+
+            .action {
+                min-height: 60px;
+
+                padding: 8px 12px;
+
+                gap: 12px;
+            }
+
+            .action-icon {
+                width: 40px;
+                height: 40px;
+
+                font-size: 19px;
+            }
+
+            .action-title {
+                font-size: 14px;
+            }
+
+            .action-description {
+                font-size: 11px;
+            }
+
+            .arrow {
+                font-size: 18px;
+            }
+        }
+
+
+        @media (max-width: 700px) {
+            .navbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .nav-brand {
+                justify-content: center;
+            }
+
+            .nav-links {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                justify-content: stretch;
+            }
+
+            .nav-link {
+                justify-content: center;
+                padding: 10px 8px;
+            }
+
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .vehicles-panel {
+                padding: 16px;
+            }
+        }
+
+
+        /* ==============================
+           REDUÇÃO DE ANIMAÇÕES
+        ============================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+
+                animation-iteration-count: 1 !important;
+
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+<main class="welcome">
+
+    <!-- Navegação principal -->
+    <nav class="navbar" aria-label="Navegação principal">
+        <div class="nav-brand">
+            <span class="nav-brand-icon">🚗</span>
+            <span>Estacionamento</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#" class="nav-link active">
+                <span class="nav-icon">🚘</span>
+                <span>Cadastro de veículos</span>
+            </a>
+
+            <a href="#" class="nav-link">
+                <span class="nav-icon">🔄</span>
+                <span>Movimentações</span>
+            </a>
+
+            <a href="#" class="nav-link">
+                <span class="nav-icon">📊</span>
+                <span>Relatórios</span>
+            </a>
+
+            <a href="#" class="nav-link">
+                <span class="nav-icon">⚙️</span>
+                <span>Configurações</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Ícone principal -->
+    <div class="icon">
+        🚗
+    </div>
+
+
+    <!-- Título -->
+    <h1>
+        Bem-vindo!
+    </h1>
+
+
+    <!-- Descrição -->
+    <p class="subtitle">
+        É um prazer ter você aqui.<br>
+        O que você deseja fazer?
+    </p>
+
+
+    <!-- Botões -->
+    <div class="actions">
+
+        <!-- Registrar entrada -->
+        <a
+                href="veiculo/registrar-entrada"
+                class="action"
+        >
+
+            <div class="action-icon">
+                🚘
+            </div>
+
+            <div class="action-content">
+
+                    <span class="action-title">
+                        Registrar entrada
+                    </span>
+
+                <span class="action-description">
+                        Registrar a chegada de um veículo
+                    </span>
+
+            </div>
+
+            <span class="arrow">
+                    →
+                </span>
+
+        </a>
+
+
+        <!-- Registrar saída -->
+        <a
+                href="veiculo/registrar-saida"
+                class="action action-exit"
+        >
+
+            <div class="action-icon">
+                🚪
+            </div>
+
+            <div class="action-content">
+
+                    <span class="action-title">
+                        Registrar saída
+                    </span>
+
+                <span class="action-description">
+                        Registrar a saída de um veículo
+                    </span>
+
+            </div>
+
+            <span class="arrow">
+                    →
+                </span>
+
+        </a>
+    </div>
+
+    <!-- Painel de veículos estacionados -->
+    <section class="vehicles-panel">
+        <div class="table-header">
+            <div class="table-header-icon">🚘</div>
+            <div>
+                <div class="table-title">Veículos estacionados</div>
+                <div class="table-subtitle">Veículos atualmente no estacionamento</div>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="vehicles-table">
+                <thead>
+                <tr>
+                    <th>Placa</th>
+                    <th>Modelo</th>
+                    <th>Hora de Entrada</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="Veiculo : ${Veiculos}">
+                    <td><span class="plate" th:text="${Veiculo.placa}"></span></td>
+                    <td th:text="${Veiculo.modelo}"></td>
+                    <td th:text="${Veiculo.horaEntrada}"></td>
+                    <td><span class="status-badge">Estacionado</span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    </div>
+
+
+    <!-- Rodapé -->
+    <div class="footer">
+
+            <span class="status">
+
+                <span class="status-dot"></span>
+
+                Sistema operacional
+
+            </span>
+
+    </div>
+
+</main>
+
+</body>
+
+</html>

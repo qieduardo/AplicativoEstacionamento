@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Erro</title>
+
+  <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #111827;
+        color: white;
+    }
+
+    .erro {
+        width: 280px;
+        padding: 30px;
+
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+
+        text-align: center;
+
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        border-radius: 14px;
+
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    }
+
+    h1 {
+        margin: 0 0 12px;
+        font-size: 22px;
+        color: #f87171;
+    }
+
+    p {
+        margin: 0;
+        color: #cbd5e1;
+        font-size: 14px;
+    }
+
+    a {
+        display: inline-block;
+        margin-top: 20px;
+
+        color: #60a5fa;
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="erro">
+  <h1>Usuário não identificado</h1>
+
+  <p>
+    Usuário ou senha incorretos.
+  </p>
+
+  <a href="/">Voltar para o login</a>
+</div>
+
+</body>
+</html>
